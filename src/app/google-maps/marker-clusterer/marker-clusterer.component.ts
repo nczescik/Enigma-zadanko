@@ -1,8 +1,9 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Loader } from '@googlemaps/js-api-loader';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
-import { Vehicle } from 'src/app/models/vehicle';
+import { Status, Type, Vehicle } from 'src/app/models/vehicle';
 import { environment } from 'src/environments/environment';
+import { faCar, faTruck } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-marker-clusterer',
@@ -55,9 +56,10 @@ export class MarkerClustererComponent implements OnInit, OnChanges {
   }
 
   createMarkers() {
-    return this.vehiclesToDisplay.map((vehicle, i) => {
+    return this.vehiclesToDisplay.map((vehicle) => {
       const marker = new google.maps.Marker({
-        position: new google.maps.LatLng(vehicle.location.latitude, vehicle.location.longitude)
+        position: new google.maps.LatLng(vehicle.location.latitude, vehicle.location.longitude),
+        icon: this.createSymbol(vehicle),
       });
 
       marker.addListener("click", () => {
@@ -66,6 +68,17 @@ export class MarkerClustererComponent implements OnInit, OnChanges {
 
       return marker;
     });
+  }
+  
+  createSymbol(vehicle){
+    return {
+      path: (vehicle.type == Type.CAR ? faCar.icon[4] : faTruck.icon[4]) as string,
+      fillColor: vehicle.status == Status.AVAILABLE ? 'green' : 'red',
+      fillOpacity: 1,
+      strokeWeight: 1,
+      strokeColor: "#ffffff",
+      scale: 0.075,
+    }
   }
 
   reloadMarkers() {
