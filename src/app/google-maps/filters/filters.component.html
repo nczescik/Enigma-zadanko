@@ -1,0 +1,6 @@
+<mat-form-field appearance="fill">
+  <mat-label>Filter vehicles</mat-label>
+  <mat-select [(ngModel)]="selectedVehicles" (selectionChange)='changeFilter()' multiple>
+    <mat-option *ngFor="let vehicle of vehicles" [value]="vehicle">{{vehicle.name}}</mat-option>
+  </mat-select>
+</mat-form-field>

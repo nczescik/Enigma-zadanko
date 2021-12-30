@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Loader } from '@googlemaps/js-api-loader';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import { Vehicle } from 'src/app/models/vehicle';
-import { VehicleService } from 'src/app/services/vehicle/vehicle.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -10,24 +9,22 @@ import { environment } from 'src/environments/environment';
   templateUrl: './marker-clusterer.component.html',
   styleUrls: ['./marker-clusterer.component.scss']
 })
-export class MarkerClustererComponent implements OnInit {
-  vehicles: Vehicle[];
-  map: google.maps.Map;
-  infoWindow: google.maps.InfoWindow;
-  markers: google.maps.Marker[];
+export class MarkerClustererComponent implements OnInit, OnChanges {
+  @Input() vehiclesToDisplay: Vehicle[];
 
-  constructor(private vehicleService: VehicleService) { }
+  map: google.maps.Map;
+  markerClusterer: MarkerClusterer;
+
+  constructor() { }
 
   ngOnInit(): void {
-    this.initData();
+    this.initMapAndMarkers();
   }
 
-  initData() {
-    this.vehicleService.getVehicles()
-      .subscribe((response) => {
-        this.vehicles = response.objects;
-        this.initMapAndMarkers();
-      });
+  ngOnChanges(changes: SimpleChanges): void {
+    if(!changes['vehiclesToDisplay'].isFirstChange()) {
+      this.reloadMarkers();
+    }
   }
 
   initMapAndMarkers() {
@@ -37,10 +34,9 @@ export class MarkerClustererComponent implements OnInit {
 
     loader.load().then(() => {
       this.map = this.createMap();
-      this.infoWindow = this.createPopup();
-      this.markers = this.createMarkers();
+      let markers = this.createMarkers();
 
-      new MarkerClusterer({ markers: this.markers, map: this.map });
+      this.markerClusterer = new MarkerClusterer({ markers, map: this.map });
     });
   }
 
@@ -59,16 +55,21 @@ export class MarkerClustererComponent implements OnInit {
   }
 
   createMarkers() {
-    return this.vehicles.map((vehicle, i) => {
+    return this.vehiclesToDisplay.map((vehicle, i) => {
       const marker = new google.maps.Marker({
         position: new google.maps.LatLng(vehicle.location.latitude, vehicle.location.longitude)
       });
 
       marker.addListener("click", () => {
-        this.infoWindow.open(this.map, marker);
+        this.createPopup().open(this.map, marker);
       });
 
       return marker;
     });
+  }
+
+  reloadMarkers() {
+    this.markerClusterer.clearMarkers();
+    this.markerClusterer.addMarkers(this.createMarkers());
   }
 }

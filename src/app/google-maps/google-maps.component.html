@@ -1,0 +1,4 @@
+<mat-card style="display:flex">
+    <app-marker-clusterer [vehiclesToDisplay]='vehiclesToDisplay' *ngIf='vehiclesToDisplay'></app-marker-clusterer>
+    <app-filters [vehicles]='allVehicles' *ngIf='allVehicles' (filter)="filter($event)"></app-filters>
+</mat-card>
