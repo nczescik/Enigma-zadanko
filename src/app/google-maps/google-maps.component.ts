@@ -10,6 +10,7 @@ import { VehicleService } from '../services/vehicle/vehicle.service';
 export class GoogleMapsComponent implements OnInit {
   allVehicles: Vehicle[];
   vehiclesToDisplay: Vehicle[];
+  selectedVehicle: Vehicle;
 
   constructor(private vehicleService: VehicleService) { }
 
@@ -21,7 +22,11 @@ export class GoogleMapsComponent implements OnInit {
       });
   }
 
-  filter(carsToDisplay){
-    this.vehiclesToDisplay = carsToDisplay;
+  filter(vehiclesToDisplay) {
+    this.vehiclesToDisplay = vehiclesToDisplay;
+  }
+
+  setSelectedVehicle(selectedVehicle) {
+    this.selectedVehicle = selectedVehicle;
   }
 }

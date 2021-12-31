@@ -1,4 +1,5 @@
 export interface Vehicle {
+    id: string;
     location: Location;
     name: string;
     status: Status;
