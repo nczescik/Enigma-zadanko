@@ -1,4 +1,14 @@
-<mat-card style="display:flex">
-    <app-marker-clusterer [vehiclesToDisplay]='vehiclesToDisplay' *ngIf='vehiclesToDisplay' (emitSelectedVehicle)="setSelectedVehicle($event)"></app-marker-clusterer>
-    <app-filters [vehicles]='allVehicles' *ngIf='allVehicles' (emitFilter)="filter($event)"></app-filters>
-</mat-card>
+<div class="container">
+    <mat-card>
+        <div class="row">
+            <div class="col-md-6">
+                <app-marker-clusterer [vehiclesToDisplay]='vehiclesToDisplay' *ngIf='vehiclesToDisplay'
+                    (emitSelectedVehicle)="setSelectedVehicle($event)"></app-marker-clusterer>
+            </div>
+            <div class="col-md-4">
+                <app-filters [vehicles]='allVehicles' *ngIf='allVehicles' (emitFilter)="filter($event)"></app-filters>
+                <app-vehicle-details [selectedVehicle]='selectedVehicle' *ngIf='selectedVehicle'></app-vehicle-details>
+            </div>
+        </div>
+    </mat-card>
+</div>

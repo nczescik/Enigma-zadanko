@@ -13,14 +13,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '../modules/material.module';
 
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { VehicleDetailsComponent } from './google-maps/vehicle-details/vehicle-details.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     MarkerClustererComponent,
     FiltersComponent,
-    GoogleMapsComponent
+    GoogleMapsComponent,
+    VehicleDetailsComponent
   ],
   imports: [
     BrowserModule,

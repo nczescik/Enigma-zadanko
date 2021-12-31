@@ -4,6 +4,10 @@ export interface Vehicle {
     name: string;
     status: Status;
     type: Type;
+    platesNumber: string;
+    color: string;
+    rangeKm: number;
+    batteryLevelPct: number;
 }
 
 export interface Location {

@@ -56,9 +56,14 @@ export class MarkerClustererComponent implements OnInit, OnChanges {
     })
   }
 
-  createPopup(vehicle) {
+  createPopup(vehicle:Vehicle) {
     return new google.maps.InfoWindow({
-      content: `<button onclick="window.angularComponentRef.zone.run(() => {window.angularComponentRef.component.emitVehicleDetails('` + vehicle.id + `')});">Details ...</button>`,
+      content: 
+      `
+        <p><b>` + vehicle.name + `</b></p>
+        <p>Status: <b>` + vehicle.status + `</b></p>
+        <button onclick="window.angularComponentRef.zone.run(() => {window.angularComponentRef.component.emitVehicleDetails('` + vehicle.id + `')});">More details ...</button>
+      `,
       disableAutoPan: true,
     });
   }
